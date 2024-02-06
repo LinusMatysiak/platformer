@@ -88,6 +88,7 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector2(0, 0);
                 break;
             case "SilverCoin":
+                PlayerPrefs.SetInt("CoinsCollected",1);
                 Statistics.stats[3] += 1;
                 points += 1;
                 Destroy(collision.gameObject);

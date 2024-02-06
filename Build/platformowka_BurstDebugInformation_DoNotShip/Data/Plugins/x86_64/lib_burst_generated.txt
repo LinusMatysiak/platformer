@@ -1,4 +1,4 @@
-Library: C:\Users\Linus\Desktop\platformer\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated
+Library: C:\Users\Linus\Desktop\platformerfinal\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated
 --platform=Windows
 --backend=burst-llvm-15
 --target=AVX2
@@ -52,10 +52,10 @@ Library: C:\Users\Linus\Desktop\platformer\Temp\BurstOutput\Data\Plugins\x86_64\
 --assembly-defines=mscorlib;
 --linker-options=PdbAltPath="platformowka_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=C:\Users\Linus\Desktop\platformer\Temp\Burst
+--temp-folder=C:\Users\Linus\Desktop\platformerfinal\Temp\Burst
 --key-folder=E:/Unity/2022.3.17f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
---decode-folder=C:\Users\Linus\Desktop\platformer\Library\Burst
---output=C:\Users\Linus\Desktop\platformer\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated
+--decode-folder=C:\Users\Linus\Desktop\platformerfinal\Library\Burst
+--output=C:\Users\Linus\Desktop\platformerfinal\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=Unity.Burst.BurstCompiler+BurstCompilerHelper, Unity.Burst, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::IsBurstEnabled()--8c2be93e18276203cbd918daa2748a10
@@ -142,10 +142,10 @@ Library: C:\Users\Linus\Desktop\platformer\Temp\BurstOutput\Data\Plugins\x86_64\
 --assembly-defines=mscorlib;
 --linker-options=PdbAltPath="platformowka_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=C:\Users\Linus\Desktop\platformer\Temp\Burst
+--temp-folder=C:\Users\Linus\Desktop\platformerfinal\Temp\Burst
 --key-folder=E:/Unity/2022.3.17f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
---decode-folder=C:\Users\Linus\Desktop\platformer\Library\Burst
---output=C:\Users\Linus\Desktop\platformer\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated
+--decode-folder=C:\Users\Linus\Desktop\platformerfinal\Library\Burst
+--output=C:\Users\Linus\Desktop\platformerfinal\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=Unity.Burst.BurstCompiler+BurstCompilerHelper, Unity.Burst, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::IsBurstEnabled()--8c2be93e18276203cbd918daa2748a10

@@ -1,13 +1,14 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 public class GUI : MonoBehaviour
 {
     TMP_Text coinDisplay;
-    TMP_Text healthDisplay;
+    Image healthDisplay;
     private void Start()
     {
         coinDisplay = GameObject.Find("CoinDisplay").GetComponent<TMP_Text>();
-        healthDisplay = GameObject.Find("HealthDisplay").GetComponent<TMP_Text>();
+        healthDisplay = GameObject.Find("HealthDisplay").GetComponent<Image>();
     }
     private void Update()
     {
@@ -16,6 +17,6 @@ public class GUI : MonoBehaviour
     void ChangeValues()
     {
         coinDisplay.text = "Coins: " + PlayerController.points.ToString();
-        healthDisplay.text = "Health: " + PlayerController.health.ToString();
+        //healthDisplay.fillAmount = PlayerController.health;
     }
 }
