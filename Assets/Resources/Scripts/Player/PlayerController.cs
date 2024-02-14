@@ -1,11 +1,16 @@
+using Unity.Collections.LowLevel.Unsafe;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
 public class PlayerController : MonoBehaviour
 {
+    // prêdkoœæ
     [SerializeField] float speed;
+    // moc skoku
     [SerializeField] float jumpSpeed;
+    // moc odrzutu
     [SerializeField] float knockback;
     bool isJumping;
     bool knockbackeffect;
@@ -15,38 +20,48 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     bool isFacingRight = true;
     //
-    public static int points;
-    public static int health = 3;
-    public static int stars;
+    public float setHealth;
+    public static float currentHealth;
+    public static float maxHealth;
 
-    static int sethealth;
     void Start()
     {
-        sethealth = health;
+        AssignHealth();
+        if (PlayerPrefs.GetInt("Initialized") != 1)
+        {
+            SetValues();
+        }
+        //Checkifdead();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
+    public void AssignHealth()
+    {
+        if (currentHealth == 0)
+        {
+            currentHealth = setHealth;
+            maxHealth = setHealth;
+        }
+    }
     void Update()
     {
+        Debug.Log(currentHealth);
         //movement input
-        if (knockbackeffect == false) { // je¿eli gracz zosta³ zaatakowany nie mo¿e siê ruszaæ dopóki nie dotknie "Ground"
+        // je¿eli gracz zosta³ zaatakowany nie mo¿e siê ruszaæ dopóki nie dotknie "Ground"
+        if (knockbackeffect == false) {
             movementDirection.x = Input.GetAxisRaw("Horizontal");
         }
         //flip direction
-        if(movementDirection.x < 0 && isFacingRight){
-            Flip();
-        } else if ( movementDirection.x > 0 && !isFacingRight)
-        {
+        if (movementDirection.x < 0 && isFacingRight || movementDirection.x > 0 && !isFacingRight) {
             Flip();
         }
         //animation
         animator.SetFloat("Speed", Mathf.Abs(movementDirection.x));
         //jumping
-        if (isJumping == false && Input.GetKeyDown(KeyCode.Space))
-        {
+        if (isJumping == false && Input.GetKeyDown(KeyCode.Space)) {
             Jump();
         }
-    }    
+    }
     void Flip()
     {
         isFacingRight = !isFacingRight;
@@ -60,22 +75,34 @@ public class PlayerController : MonoBehaviour
     }
     public void Jump()
     {
-        Statistics.stats[1] += 1;
+        PlayerPrefs.SetInt("TimesJumped", PlayerPrefs.GetInt("TimesJumped") + 1);
         isJumping = true;
         animator.SetBool("IsJumping", true);
         rb.velocity = new Vector2(rb.velocity.x, 0);
         rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
     }
-    void Die()
+    void Checkifdead()
     {
-        if (health <= 0)
+        if (currentHealth <= 0)
         {
-            health = sethealth;
-            points = 0;
-            stars = 0;
-
-            Statistics.ResetStatistics();
+            AssignHealth();
             SceneManager.LoadScene(sceneBuildIndex: 0);
+            SetValues();
+        }
+    }
+    void Knockback()
+    {
+        //resetuje jego dotychczasowy kierunek lotu by zapobiec bugom
+        rb.velocity = new Vector2(0, 0);
+        // wy³¹cza mo¿liwoœæ poruszania siê w Update dopóki gracz nie dotknie Ground
+        knockbackeffect = true;
+        // resetuje inputy na osi X
+        movementDirection.x = 0;
+        // sprawdza w któr¹ strone patrzy gracz i odrzuca go w strone w któr¹ nie patrzy
+        if (isFacingRight) {
+            rb.velocity = new Vector2(knockback * -1, knockback / 2f);
+        } else {
+            rb.velocity = new Vector2(knockback, knockback / 2f);
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -86,38 +113,43 @@ public class PlayerController : MonoBehaviour
                 isJumping = false;
                 animator.SetBool("IsJumping", false);
                 rb.velocity = new Vector2(0, 0);
-                break;
+            break;
             case "SilverCoin":
-                PlayerPrefs.SetInt("CoinsCollected",1);
-                Statistics.stats[3] += 1;
-                points += 1;
+                // Ta linijka kodu zwiêksza liczbê zebranych monet o jeden.
+                // Najpierw pobiera aktualn¹ liczbê zebranych monet z pamiêci urz¹dzenia, dodaje do niej jeden,
+                // a nastêpnie zapisuje tê zaktualizowan¹ wartoœæ z powrotem do zmiennej "CoinsCollected"
+                PlayerPrefs.SetInt("CoinsCollected", PlayerPrefs.GetInt("CoinsCollected") + 1);
                 Destroy(collision.gameObject);
-                break;
+            break;
             case "GoldCoin":
-                Statistics.stats[3] += 5;
-                points += 5;
+                PlayerPrefs.SetInt("CoinsCollected", PlayerPrefs.GetInt("CoinsCollected") + 3);
                 Destroy(collision.gameObject);
-                break;
+            break;
             case "HealthUP":
-                Statistics.stats[4] += 1;
-                health += 1;
+                PlayerPrefs.SetInt("TimesHealed", PlayerPrefs.GetInt("TimesHealed") + 1);
+                currentHealth += 1;
                 Destroy(collision.gameObject);
-                break;
+            break;
             case "Star":
-                Statistics.stats[2] += 1;
-                stars += 1;
+                PlayerPrefs.SetInt("StarsCollected", PlayerPrefs.GetInt("StarsCollected") + 1);
                 Destroy(collision.gameObject);
-                Debug.Log("stars: " + stars);
-                break;
+            break;
             case "NextLevel":
                 SceneManager.LoadScene(sceneBuildIndex: SceneManager.GetActiveScene().buildIndex + 1);
-                break;
+            break;
             case "Passage":
+                // zmienia kolor obiektu na pó³ przezroczysty                   Kolor Alfa  R                  G            B
                 collision.gameObject.GetComponent<SpriteRenderer>().color = new Color(10f / 255f, 100f / 255f, 100f / 255f, 100f / 255f);
-                break;
+            break;
             case "Sign":
                 collision.transform.GetChild(0).gameObject.SetActive(true);
-                break;
+            break;
+            case "Ladder":
+                if (animator.GetBool("IsJumping") == true)
+                {
+                    animator.SetBool("IsJumping", false);
+                }
+            break;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -129,13 +161,13 @@ public class PlayerController : MonoBehaviour
                 animator.SetBool("OnLadder", false);
                 rb.gravityScale = 1;
                 movementDirection.y = 0;
-                break;
+            break;
             case "Passage":
                 collision.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
-                break;
+            break;
             case "Sign":
                 collision.transform.GetChild(0).gameObject.SetActive(false);
-                break;
+            break;
         }
     }
     private void OnTriggerStay2D(Collider2D collision)
@@ -143,9 +175,12 @@ public class PlayerController : MonoBehaviour
         switch (collision.gameObject.tag)
         {
             case "Ladder":
+                // wy³¹cza mo¿liwoœæ skakania
                 isJumping = true;
+                // w³¹cza animacje wdrapywania siê na drabine
                 animator.SetBool("OnLadder", true);
                 movementDirection.y = Input.GetAxisRaw("Vertical");
+                rb.velocity = new Vector2(0, 0);
                 rb.gravityScale = 0;
                 break;
         }
@@ -158,24 +193,26 @@ public class PlayerController : MonoBehaviour
                 knockbackeffect = false;
                 isJumping = false;
                 animator.SetBool("IsJumping", false);
-                break;
-            case "Obstacle":
-                rb.velocity = new Vector2(Random.Range(-10, 10), Random.Range(2, 10));
-                health -= 1;
-                Die();
-                break;
+            break;
             case "Enemy":
-                health -= 1;
-                movementDirection.x = 0;
-                rb.velocity = new Vector2(0, 0);
-                knockbackeffect = true;
-                if (isFacingRight) {
-                    rb.velocity = new Vector2(knockback*-1, knockback / 2f);
-                } else {
-                    rb.velocity = new Vector2(knockback, knockback/2f);
-                }
-                Die();
-                break;
+                currentHealth -= 1;
+                Knockback();
+                Checkifdead();
+            break;
         }
+    }
+    public static void SetValues()
+    {
+        PlayerPrefs.SetInt("Initialized", 1);
+        PlayerPrefs.SetInt("GameCompleted", 0);
+        PlayerPrefs.SetInt("EnemiesKilled", 0);
+        PlayerPrefs.SetInt("TimesJumped", 0);
+        PlayerPrefs.SetInt("StarsCollected", 0);
+        PlayerPrefs.SetInt("CoinsCollected", 0);
+        PlayerPrefs.SetInt("TimesHealed", 0);
+    }
+    private void OnApplicationQuit()
+    {
+        SetValues();
     }
 }

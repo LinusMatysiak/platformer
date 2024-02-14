@@ -6,18 +6,17 @@ public class Menu : MonoBehaviour
 {
     // Przypisanie klawisza do póŸniejszego odpalenia gry
     [SerializeField] KeyCode key;
+    public TMP_Text text;
 
     private void Start() {
-        // Pobranie komponentu TMP_Text z dziecka tego GameObjectu
-        TMP_Text text = GetComponentInChildren<TMP_Text>();
         // Sprawdzenie, czy key ma jak¹œ wartoœæ i czy ta wartoœæ to jest "Escape"
         // je¿eli key nie ma wartoœci lub jest przypisana na "Escape"
         // ustalana jest wartoœæ key na "Space"
         if (key == KeyCode.None || key == KeyCode.Escape) {
-            Debug.Log("Keycode either set to None or to Escape. Defaulting key to Space");
+            Debug.Log("Keycode jest ustawiony albo na 'None' albo 'Escape', wiêc program domyœlnie ustawi Keycode na 'Space'");
             key = KeyCode.Space;
         }
-        // Ustawienie tekstu w komponencie TMP_Text z informacj¹ o klawiszu do naciœniêcia
+        // Ustawienie tekstu w komponencie TMP_Text z informacj¹ który klawisz nas przeniesie do nastêpnej sceny
         text.text = "PRESS " + key;
         
     }

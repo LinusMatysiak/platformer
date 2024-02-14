@@ -680,7 +680,6 @@ GameObject:
   - component: {fileID: 482585494}
   - component: {fileID: 482585493}
   - component: {fileID: 482585495}
-  - component: {fileID: 482585496}
   m_Layer: 5
   m_Name: statistics
   m_TagString: Untagged
@@ -776,19 +775,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &482585496
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 482585491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea8d1207bf4bf74392405e9a152f516, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: 0
 --- !u!1 &810253204
 GameObject:
   m_ObjectHideFlags: 0
@@ -1225,6 +1211,7 @@ GameObject:
   - component: {fileID: 1427322197}
   - component: {fileID: 1427322196}
   - component: {fileID: 1427322195}
+  - component: {fileID: 1427322199}
   m_Layer: 5
   m_Name: CreditsUI
   m_TagString: Untagged
@@ -1318,6 +1305,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1427322199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427322194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ea8d1207bf4bf74392405e9a152f516, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: 0
+  text: {fileID: 810253206}
+  texts:
+  - {fileID: 191902103}
+  - {fileID: 111838537}
+  - {fileID: 1284032827}
+  - {fileID: 1263059942}
+  - {fileID: 398293663}
 --- !u!1 &1685422086
 GameObject:
   m_ObjectHideFlags: 0

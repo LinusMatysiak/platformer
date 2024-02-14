@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class EnemyPatrol : MonoBehaviour
@@ -24,14 +23,18 @@ public class EnemyPatrol : MonoBehaviour
     // Gdy True powoduje, ¿e obiekt siê nie rusza do momentu gdy waitTime == waitTimer
     private bool isWaiting;
 
+    // odwo³anie do obiektu obs³uguj¹cego fizykê
+    private Rigidbody2D rb;
+
     // zmienna u¿ywana przy rysowaniu linii miêdzy punktami
     private Vector2[] Points;
     private void Start() {
         // sprawdza czy obiekt ma mniej ni¿ 2 punkty po których mo¿e siê poruszaæ
         // je¿eli ma mniej to wypisze ostrze¿enie i wska¿e który to obiekt
+        rb = GetComponent<Rigidbody2D>();
         if (patrolPoints.Length <= 1)
         {
-            Debug.Log(transform.parent.name + " This Object Doent have atleast 2 patrolPoints");
+            Debug.Log(transform.parent.name + " This Object Doesnt have atleast 2 patrolPoints");
         }
     }
     private void Update() {
@@ -65,12 +68,12 @@ public class EnemyPatrol : MonoBehaviour
     private void MoveTowardsPatrolPoint()
     {
         // poruszanie siê obiektu w pozycjê patrolPoints[patrolDestination]
-        transform.position = Vector2.MoveTowards(transform.position, patrolPoints[patrolDestination].position, moveSpeed * Time.deltaTime);
+        rb.position = Vector2.MoveTowards(rb.position, patrolPoints[patrolDestination].position, moveSpeed * Time.deltaTime);
 
         // je¿eli obiekt zbli¿y siê do punktu patrolowego
         // zmienia jego kierunek na nastêpny patrolDestination
         // i daje instrukcjê by przy nastêpnej próbie poruszania siê poczeka³
-        if (Vector2.Distance(transform.position, patrolPoints[patrolDestination].position) < 0.2f)
+        if (Vector2.Distance(rb.position, patrolPoints[patrolDestination].position) < 0.2f)
         {
             patrolDestination = (patrolDestination + 1) % patrolPoints.Length;
             isWaiting = true;
@@ -80,8 +83,8 @@ public class EnemyPatrol : MonoBehaviour
     private void CheckDirection()
     {
         // sprawdza czy pozycja obiektu zgadza siê z pozycj¹ docelow¹ i w któr¹ stronê jest aktualnie skierowany obiekt
-        if (transform.position.x < patrolPoints[patrolDestination].position.x && isFacingRight ||
-            transform.position.x > patrolPoints[patrolDestination].position.x && !isFacingRight)
+        if (rb.position.x < patrolPoints[patrolDestination].position.x && isFacingRight ||
+            rb.position.x > patrolPoints[patrolDestination].position.x && !isFacingRight)
         {
             Flip();
         }
@@ -92,7 +95,7 @@ public class EnemyPatrol : MonoBehaviour
         // odwraca warunek pomocniczy
         isFacingRight = !isFacingRight;
         // pobiera aktualn¹ wartoœæ osi x
-        Vector3 scale = transform.localScale;
+        Vector2 scale = transform.localScale;
         // zmienia wartoœæ osi x na ujemn¹
         scale.x *= -1;
         // przypisuje odwrócon¹ ju¿ wartoœæ scale.x

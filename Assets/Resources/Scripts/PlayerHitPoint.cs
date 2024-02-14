@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerHitPoint : MonoBehaviour
@@ -9,7 +7,7 @@ public class PlayerHitPoint : MonoBehaviour
         switch (collision.gameObject.tag)
         {
             case "WeakPoint":
-                Statistics.stats[0] += 1;
+                PlayerPrefs.SetInt("EnemiesKilled", PlayerPrefs.GetInt("EnemiesKilled") + 1);
                 Destroy(collision.transform.parent?.parent?.gameObject);
                 GetComponentInParent<PlayerController>().Jump();
                 break;

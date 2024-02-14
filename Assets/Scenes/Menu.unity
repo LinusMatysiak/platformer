@@ -540,6 +540,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: 0
+  text: {fileID: 810253206}
 --- !u!1 &1685422086
 GameObject:
   m_ObjectHideFlags: 0
