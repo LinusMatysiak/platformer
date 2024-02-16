@@ -4,31 +4,34 @@ using TMPro;
 
 public class Menu : MonoBehaviour
 {
-    // Przypisanie klawisza do póŸniejszego odpalenia gry
+    /* jak dzia³a ten skrypt?
+     * zmienia wyœwietlany tekst w zale¿noœci od klawisza który przypiszemy.
+     * póŸniej pobiera ten klucz i w³¹cza lub wy³¹cza gre
+     * 
+     * jak u¿ywaæ ten skrypt?
+     * skrypt nale¿y podpi¹c gdzieœ w scenie najlepiej pod canvas
+     * i póŸniej podpi¹æ tekst który chcemy zmieniæ
+     */
     [SerializeField] KeyCode key;
     public TMP_Text text;
+    public string scene;
 
     private void Start() {
-        // Sprawdzenie, czy key ma jak¹œ wartoœæ i czy ta wartoœæ to jest "Escape"
-        // je¿eli key nie ma wartoœci lub jest przypisana na "Escape"
-        // ustalana jest wartoœæ key na "Space"
         if (key == KeyCode.None || key == KeyCode.Escape) {
             Debug.Log("Keycode jest ustawiony albo na 'None' albo 'Escape', wiêc program domyœlnie ustawi Keycode na 'Space'");
             key = KeyCode.Space;
         }
-        // Ustawienie tekstu w komponencie TMP_Text z informacj¹ który klawisz nas przeniesie do nastêpnej sceny
         text.text = "PRESS " + key;
         
     }
     private void Update() {
-        // Sprawdzenie, czy klawisz zosta³ naciœniêty, a nastêpnie przejœcie do kolejnej sceny
-        if (Input.GetKeyDown(key)) {// Sprawdzenie, czy klawisz zosta³ naciœniêty, a nastêpnie przejœcie do kolejnej sceny
-            SceneManager.LoadScene(sceneBuildIndex: SceneManager.GetActiveScene().buildIndex + 1);
+        if (Input.GetKeyDown(key)) {
+            SceneManager.LoadScene(scene);
         }
-        // Sprawdzenie, czy klawisz Escape zosta³ naciœniêty, a nastêpnie wyjœcie z aplikacji
         else if (Input.GetKeyDown(KeyCode.Escape))
         {
             Debug.Log("Quit");
+            // wy³¹cza gre
             Application.Quit();
         }
     }

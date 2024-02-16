@@ -203,7 +203,7 @@ GameObject:
   - component: {fileID: 482366489}
   - component: {fileID: 482366488}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 810253206}
   - component: {fileID: 810253208}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Play
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -541,6 +541,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: 0
   text: {fileID: 810253206}
+  scene: Level1
 --- !u!1 &1685422086
 GameObject:
   m_ObjectHideFlags: 0
@@ -690,7 +691,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: fajna gierka
+  m_text: SUPER FAJNA GRA
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5d7496de1db94a94a82b2b62a87bc0e3, type: 2}
   m_sharedMaterial: {fileID: 8546747007782269879, guid: 5d7496de1db94a94a82b2b62a87bc0e3, type: 2}

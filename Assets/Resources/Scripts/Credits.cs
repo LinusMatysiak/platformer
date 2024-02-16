@@ -4,6 +4,17 @@ using TMPro;
 
 public class Credits : MonoBehaviour
 {
+    /* Jak dzia³a ten skrypt?
+     * zmienia wyœwietlany tekst w zale¿noœci od klawisza który przypiszemy.
+     * póŸniej pobiera ten klucz i w³¹cza lub wy³¹cza gre
+     * 
+     * nastêpnie wypisuje wartoœci zapisane w playerprefs
+     * 
+     * jak u¿ywaæ ten skrypt?
+     * skrypt nale¿y podpi¹c gdzieœ w scenie najlepiej pod canvas
+     * i póŸniej podpi¹æ teksty który chcemy zmieniæ
+     * 
+     */
     [SerializeField] KeyCode key;
     public TMP_Text text;
     public TMP_Text[] texts;

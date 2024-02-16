@@ -1,16 +1,19 @@
-using Unity.Collections.LowLevel.Unsafe;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
 public class PlayerController : MonoBehaviour
 {
-    // prêdkoœæ
+    /* Jak dzia³a ten skrypt?
+     * Skrypt pozwala graczowi sie poruszaæ, interaktowac z przedmiotami
+     * obraca gracza gdy ten zacznie chodziæ w innym kierunku
+     * 
+     * 
+     * Jak u¿ywaæ ten skrypt?
+     * Skrypt nale¿y podpi¹æ pod gracza, i ustawiæ mu wszystkie predkoœci oraz SetHealth.
+     */
     [SerializeField] float speed;
-    // moc skoku
     [SerializeField] float jumpSpeed;
-    // moc odrzutu
     [SerializeField] float knockback;
     bool isJumping;
     bool knockbackeffect;
@@ -20,7 +23,7 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     bool isFacingRight = true;
     //
-    public float setHealth;
+    public float health;
     public static float currentHealth;
     public static float maxHealth;
 
@@ -37,27 +40,22 @@ public class PlayerController : MonoBehaviour
     }
     public void AssignHealth()
     {
-        if (currentHealth == 0)
+        if (currentHealth <= 0)
         {
-            currentHealth = setHealth;
-            maxHealth = setHealth;
+            currentHealth = health;
+            maxHealth = health;
         }
     }
     void Update()
     {
         Debug.Log(currentHealth);
-        //movement input
-        // je¿eli gracz zosta³ zaatakowany nie mo¿e siê ruszaæ dopóki nie dotknie "Ground"
         if (knockbackeffect == false) {
             movementDirection.x = Input.GetAxisRaw("Horizontal");
         }
-        //flip direction
         if (movementDirection.x < 0 && isFacingRight || movementDirection.x > 0 && !isFacingRight) {
             Flip();
         }
-        //animation
         animator.SetFloat("Speed", Mathf.Abs(movementDirection.x));
-        //jumping
         if (isJumping == false && Input.GetKeyDown(KeyCode.Space)) {
             Jump();
         }
@@ -92,13 +90,9 @@ public class PlayerController : MonoBehaviour
     }
     void Knockback()
     {
-        //resetuje jego dotychczasowy kierunek lotu by zapobiec bugom
         rb.velocity = new Vector2(0, 0);
-        // wy³¹cza mo¿liwoœæ poruszania siê w Update dopóki gracz nie dotknie Ground
         knockbackeffect = true;
-        // resetuje inputy na osi X
         movementDirection.x = 0;
-        // sprawdza w któr¹ strone patrzy gracz i odrzuca go w strone w któr¹ nie patrzy
         if (isFacingRight) {
             rb.velocity = new Vector2(knockback * -1, knockback / 2f);
         } else {
@@ -115,9 +109,6 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector2(0, 0);
             break;
             case "SilverCoin":
-                // Ta linijka kodu zwiêksza liczbê zebranych monet o jeden.
-                // Najpierw pobiera aktualn¹ liczbê zebranych monet z pamiêci urz¹dzenia, dodaje do niej jeden,
-                // a nastêpnie zapisuje tê zaktualizowan¹ wartoœæ z powrotem do zmiennej "CoinsCollected"
                 PlayerPrefs.SetInt("CoinsCollected", PlayerPrefs.GetInt("CoinsCollected") + 1);
                 Destroy(collision.gameObject);
             break;
@@ -138,7 +129,7 @@ public class PlayerController : MonoBehaviour
                 SceneManager.LoadScene(sceneBuildIndex: SceneManager.GetActiveScene().buildIndex + 1);
             break;
             case "Passage":
-                // zmienia kolor obiektu na pó³ przezroczysty                   Kolor Alfa  R                  G            B
+                                                                                   // Kolor Alfa  R                  G            B
                 collision.gameObject.GetComponent<SpriteRenderer>().color = new Color(10f / 255f, 100f / 255f, 100f / 255f, 100f / 255f);
             break;
             case "Sign":
@@ -175,9 +166,7 @@ public class PlayerController : MonoBehaviour
         switch (collision.gameObject.tag)
         {
             case "Ladder":
-                // wy³¹cza mo¿liwoœæ skakania
                 isJumping = true;
-                // w³¹cza animacje wdrapywania siê na drabine
                 animator.SetBool("OnLadder", true);
                 movementDirection.y = Input.GetAxisRaw("Vertical");
                 rb.velocity = new Vector2(0, 0);

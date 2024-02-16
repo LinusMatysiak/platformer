@@ -3,6 +3,14 @@ using TMPro;
 using UnityEngine.UI;
 public class GUI : MonoBehaviour
 {
+    /* Jak dzia³a ten skrypt?
+     * wyœwietla ¿ycie i iloœæ monet które ma gracz
+     * 
+     * 
+     * Jak u¿ywac ten skrypt?
+     * zale¿y nadaæ tag obiektom które maj¹ wyswietlaæ wartoœci
+     * i podpi¹æ gdzieœ skrypt, najlepiej pod canvas
+     */
     TMP_Text coinDisplay;
     Image healthDisplay;
     static float maxhealth;
